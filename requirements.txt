@@ -9,3 +9,5 @@ pytube
 google-api-python-client
 moviepy
 opencv-python
+python-telegram-bot>=20.0
+
