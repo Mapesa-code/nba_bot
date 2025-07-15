@@ -5,3 +5,5 @@
 1. Clone repo
 2. Copy `config.py.template` → `config.py`, then fill in API keys.
 3. Install dependencies:
+4. Run locally:
+5. 
