@@ -1,8 +1,11 @@
-python-3.10.13
 requests
 pandas
 scikit-learn
+python-telegram-bot
+python-dotenv
 vaderSentiment
 openai
-google-api-python-client
 pytube
+google-api-python-client
+moviepy
+opencv-python
