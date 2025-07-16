@@ -6,7 +6,8 @@ from config import TELEGRAM_BOT_TOKEN
 # TEMPORARY DEBUG: Print the token to verify it's being passed from Render
 print(f"Loaded TELEGRAM_BOT_TOKEN: {TELEGRAM_BOT_TOKEN}")
 from scores import fetch_last_30_days_scores, save_to_csv
-from reddit import fetch_reddit_posts, analyze_sentimentsfrom config 
+from reddit import fetch_reddit_posts, analyze_sentiments
+from config import TELEGRAM_BOT_TOKEN
 from youtube import get_youtube_videos
 from ai_summary import summarize_posts_with_gpt
 
