@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NBA Game Predictions</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Today's NBA Game Predictions</h1>
+        <a href="/">Back to Home</a>
+        {% if games %}
+            <div class="game-list">
+                {% for game in games %}
+                <div class="game-card">
+                    <h3>{{ game.AwayTeam }} at {{ game.HomeTeam }}</h3>
+                    <p><strong>Status:</strong> {{ game.Status }}</p>
+                    <p><strong>Predicted Winner:</strong> <span class="prediction">{{ game.prediction }}</span></p>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No games scheduled for today or an error occurred.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
