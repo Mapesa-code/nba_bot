@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NBA Highlights</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Recent NBA Highlights</h1>
+        <a href="/">Back to Home</a>
+        <div class="highlight-grid">
+            {% for video in videos %}
+            <div class="video-card">
+                <a href="https://www.youtube.com/watch?v={{ video.video_id }}" target="_blank">
+                    <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                    <p>{{ video.title }}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
