@@ -4,9 +4,19 @@ from datetime import datetime, timedelta
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+import os # <-- Import the os module
 
 def get_nba_predictions():
-    API_KEY = "YOUR_SPORTSDATA_IO_API_KEY"  # Replace with your actual key
+    # Retrieve the API key from environment variables
+    API_KEY = os.getenv("SPORTS_API_KEY")
+    
+    # Check if the API key exists
+    if not API_KEY:
+        print("Error: SPORTS_API_KEY environment variable not set!")
+        # You could also raise an exception here to stop the app
+        # raise ValueError("SPORTS_API_KEY environment variable not set!")
+        return [] # Return empty list to prevent crash
+
     BASE_URL = "https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/"
     HEADERS = {"Ocp-Apim-Subscription-Key": API_KEY}
 
@@ -31,14 +41,26 @@ def get_nba_predictions():
         return []
 
     df = pd.DataFrame(all_games_data)
+    # Ensure score columns are not null before comparison
+    df = df[df['HomeTeamScore'].notna() & df['AwayTeamScore'].notna()]
+    if df.empty:
+        return []
+        
     df['HomeTeamWon'] = (df['HomeTeamScore'] > df['AwayTeamScore']).astype(int)
     
     features = ['PointSpread', 'OverUnder', 'HomeTeamMoneyLine', 'AwayTeamMoneyLine']
     target = 'HomeTeamWon'
 
-    X = df[features].fillna(df[features].mean())
-    y = df[target]
+    # Filter out rows where essential features might be missing
+    df_train = df.dropna(subset=features)
+    if df_train.empty or len(df_train['HomeTeamWon'].unique()) < 2:
+         print("Not enough data to train the model after cleaning.")
+         return []
 
+    X = df_train[features]
+    y = df_train[target]
+
+    # Use stratify only if there are at least 2 classes
     X_train, _, y_train, _ = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
     
     scaler = StandardScaler()
@@ -61,6 +83,10 @@ def get_nba_predictions():
         return []
 
     predict_df = pd.DataFrame(today_games)
+    # Check if prediction data is valid
+    if predict_df.empty or not all(f in predict_df.columns for f in features):
+        return []
+        
     X_predict = predict_df[features].fillna(predict_df[features].mean())
     X_predict_scaled = scaler.transform(X_predict)
     
