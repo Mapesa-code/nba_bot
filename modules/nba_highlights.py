@@ -1,8 +1,17 @@
 import requests
 from datetime import datetime, timedelta
+import os # <-- Import the os module
 
 def get_youtube_highlights(max_results=5):
-    YOUTUBE_API_KEY = "YOUR_YOUTUBE_API_KEY"  # Replace with your YouTube Data API v3 key
+    # Retrieve the API key from environment variables
+    YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+
+    # Check if the API key exists
+    if not YOUTUBE_API_KEY:
+        print("Error: YOUTUBE_API_KEY environment variable not set!")
+        # raise ValueError("YOUTUBE_API_KEY environment variable not set!")
+        return [] # Return empty list to prevent crash
+
     YOUTUBE_API_BASE_URL = "https://www.googleapis.com/youtube/v3"
 
     published_after = (datetime.now() - timedelta(days=2)).strftime('%Y-%m-%dT%H:%M:%SZ')
