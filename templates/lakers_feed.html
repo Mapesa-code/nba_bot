@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lakers Social Feed</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lakers Social Feed & Sentiment</h1>
+        <a href="/">Back to Home</a>
+        <div class="sentiment-summary">
+            <h2>Overall Sentiment: {{ summary.overall }}</h2>
+            <p>Average Score: {{ summary.average }}</p>
+        </div>
+        <div class="post-list">
+            {% for post in posts %}
+            <div class="post-card">
+                <h4><a href="{{ post.url }}" target="_blank">{{ post.title }}</a></h4>
+                <p><em>Source: {{ post.source }}</em></p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
